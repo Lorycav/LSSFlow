@@ -50,13 +50,13 @@ The given scales are left unchanged while the target band is generated with the 
 
 4. **Model** (`model.py`): the model consists in a wide and shallow 3D U-Net (10.9 M parameters) with wavelet-specific convolutional blocks and attention-gated skip connections precisely designed to spot, learn and generate the small missing scales. It is the conditioned throughout its components on the flow time and the cosmological parameters, properly injected through AdaGN.
 <p align="center">
-  <img src="docs/figures/unet_def.pdf" width="70%" alt="3D U-Net Model architecture">
+  <img src="docs/figures/unet_def.png" width="70%" alt="3D U-Net Model architecture">
 </p>
 <p align="center">
-  <img src="docs/figures/dwtconvblock_2.pdf" width="70%" alt="Convolutional DWT specific block.">
+  <img src="docs/figures/dwtconvblock_2.png" width="70%" alt="Convolutional DWT specific block.">
 </p>
 <p align="center">
-  <img src="docs/figures/skipgate_3.pdf" width="70%" alt="Attention-gated DWT specific skip connection.">
+  <img src="docs/figures/skipgate_3.png" width="70%" alt="Attention-gated DWT specific skip connection.">
 </p>
 
 5. **Training**: the model learns the velocity through conditional straigh paths x_t = t·x_HR + (1 − t)·x_LR with an MSE normalised by the variance of each sub-band, to keep the bands' contributions to the loss comparable. The training task in practice is implemented with the AdamW optimiser, linear warmup of the learning rate, mixed precision, an exponential moving average of the weights in validation and inference for more stable realisations of the model, and with a compiled, hardware specific computation graph to speed up the training process. The thesis model was trained for 600 epochs on two NVIDIA T4 GPUs in parallel, for about 96 hours in total.

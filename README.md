@@ -49,27 +49,30 @@ The given scales are left unchanged while the target band is generated with the 
 </p>
 
 4. **Model** (`model.py`): the model consists in a wide and shallow 3D U-Net (10.9 M parameters) with wavelet-specific convolutional blocks and attention-gated skip connections precisely designed to spot, learn and generate the small missing scales. It is the conditioned throughout its components on the flow time and the cosmological parameters, properly injected through AdaGN.
+Here is the overall model architecture:
 <p align="center">
-  <img src="docs/figures/unet_def.png" width="70%" alt="3D U-Net Model architecture">
+  <img src="docs/figures/unet_def.png" width="95%" alt="3D U-Net Model architecture">
 </p>
+The convolutional DWT specific block:
 <p align="center">
-  <img src="docs/figures/dwtconvblock_2.png" width="70%" alt="Convolutional DWT specific block.">
+  <img src="docs/figures/dwtconvblock_2.png" width="95%" alt="Convolutional DWT specific block.">
 </p>
+And the attention-gated DWT specific skip connection:
 <p align="center">
-  <img src="docs/figures/skipgate_3.png" width="70%" alt="Attention-gated DWT specific skip connection.">
+  <img src="docs/figures/skipgate_3.png" width="95%" alt="Attention-gated DWT specific skip connection.">
 </p>
 
 5. **Training**: the model learns the velocity through conditional straigh paths x_t = t·x_HR + (1 − t)·x_LR with an MSE normalised by the variance of each sub-band, to keep the bands' contributions to the loss comparable. The training task in practice is implemented with the AdamW optimiser, linear warmup of the learning rate, mixed precision, an exponential moving average of the weights in validation and inference for more stable realisations of the model, and with a compiled, hardware specific computation graph to speed up the training process. The thesis model was trained for 600 epochs on two NVIDIA T4 GPUs in parallel, for about 96 hours in total.
 <p align="center">
-  <img src="docs/figures/training_history.png" width="70%" alt="Training History.">
+  <img src="docs/figures/training_history.png" width="95%" alt="Training History.">
 </p>
 <p align="center">
-  <img src="docs/figures/evo_scalar.png" width="70%" alt="Summary statistics evolution throughout training.">
+  <img src="docs/figures/evo_scalar.png" width="95%" alt="Summary statistics evolution throughout training.">
 </p>
 
 6. **Sampling**: the model's learned velocity induces an ODE we integrate with the explicit Euler method for 100 steps to obtain the high resolution fields from the low resolution perturbed sources, which takes about 73 seconds for the single field on a single T4.
 <p align="center">
-  <img src="docs/figures/traj_maps_1044.png" width="70%" alt="Trajectory of the ODE integration for two different noised sources.">
+  <img src="docs/figures/traj_maps_1044.png" width="95" alt="Trajectory of the ODE integration for two different noised sources.">
 </p>
 
 Further considerations, limitations and conclusions are discussed in the thesis.
@@ -86,8 +89,8 @@ Further considerations, limitations and conclusions are discussed in the thesis.
 | `VAL_FLAG` | `True` | evaluation and diagnostics after training |
 | `STATS_FLAG` | `True` | compute the split and the normalisation statistics, or reload them from `./param_stats`; with `False` they are read from `PARAM_PATH` |
 | `PARAM_PATH` | | saved `param_stats` file, used when `STATS_FLAG=False` |
-| `LOG_FLAG` | `True` | log transform of δ (otherwise a plain standardisation) |
-| `BASE_PATH_STR` | `data/fields` | folder with the training fields |
+| `LOG_FLAG` | `True` | wether to apply the logarithmic transform |
+| `BASE_PATH_STR` | `data/` | folder with the training fields |
 | `PARAM_FILE_STR` | `data/latin_hypercube_params.txt` | Quijote parameter file |
 
 ## Acknowledgements

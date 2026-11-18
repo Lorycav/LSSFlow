@@ -1,0 +1,8 @@
+BOX_SIZE = None
+LEARNING_RATE = None
+WARMUP_STEPS = None
+N_PARAMS = None
+LOG_FLAG = None
+BATCH_SIZE = None
+K_NYQ_LR = 0.201
+K_NYQ_HR = 0.402 

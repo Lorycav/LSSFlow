@@ -1,0 +1,23 @@
+# Data and large files, see "Data" in the README
+data/
+*.npy
+*.npz
+*.hdf5
+*.pth
+param_stats
+
+# Outputs of the runs
+cfm_checkpoints/
+cfm_results/
+*.png
+!docs/figures/*.png
+
+# Python and notebooks
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv*/
+venv/
+
+# Private scripts
+replot.py

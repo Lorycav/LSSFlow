@@ -72,7 +72,7 @@ And the attention-gated DWT specific skip connection:
 
 6. **Sampling**: the model's learned velocity induces an ODE we integrate with the explicit Euler method for 100 steps to obtain the high resolution fields from the low resolution perturbed sources, which takes about 73 seconds for the single field on a single T4.
 <p align="center">
-  <img src="docs/figures/traj_maps_1044.png" width="95" alt="Trajectory of the ODE integration for two different noised sources.">
+  <img src="docs/figures/traj_maps_1044.png" width="95%" alt="Trajectory of the ODE integration for two different noised sources.">
 </p>
 
 Further considerations, limitations and conclusions are discussed in the thesis.
